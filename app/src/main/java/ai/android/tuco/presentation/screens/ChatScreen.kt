@@ -1,7 +1,6 @@
 package ai.android.tuco.presentation.screens
 
 
-import ai.android.tuco.R
 import ai.android.tuco.presentation.utils.formatTime
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +20,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +39,6 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -79,40 +79,32 @@ fun ChatScreen() {
             }
         }
 
-        // Message Input Field with Send Button
-        Row(
-            modifier = Modifier
+        Box(
+            modifier = Modifier.padding()
                 .fillMaxWidth()
-                .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Gradient Border Box
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp)
-                    .drawWithCache {
-                        val gradient = Brush.linearGradient(
-                            colors = listOf(Color(0xFF007ACC), Color(0xFFE81CFF))
+                .drawWithCache {
+                    val gradient = Brush.linearGradient(
+                        colors = listOf(Color(0xFF007ACC), Color(0xFFE81CFF))
+                    )
+                    onDrawWithContent {
+                        drawContent()
+                        drawRoundRect(
+                            brush = gradient,
+                            size = size,
+                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx()),
+                            style = androidx.compose.ui.graphics.drawscope.Stroke(0.5.dp.toPx())
                         )
-                        onDrawWithContent {
-                            drawContent()
-                            drawRoundRect(
-                                brush = gradient,
-                                size = size,
-                                cornerRadius = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx()),
-                                style = androidx.compose.ui.graphics.drawscope.Stroke(0.5.dp.toPx())
-                            )
-                        }
                     }
-                    .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(24.dp))
-            ) {
+                }
+                .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(24.dp))
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(end = 8.dp)) {
                 BasicTextField(
                     value = messageInput,
                     onValueChange = { messageInput = it },
                     textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(0.9f)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     keyboardOptions = KeyboardOptions(
                         capitalization = KeyboardCapitalization.Sentences, // ✅ Sentence capitalization
@@ -121,32 +113,47 @@ fun ChatScreen() {
                     minLines = 2,
                     cursorBrush = SolidColor(Color.White)
                 )
+                IconButton(
+                    onClick = {
+                        if (messageInput.text.isNotEmpty()) {
+                            val currentTime = System.currentTimeMillis()
+                            messages.add(Message(messageInput.text, isFromUser = true,
+                                timestamp = formatTime(currentTime)))
+                            messages.add(
+                                Message("Great idea! What else would you like to explore?",
+                                    isFromUser = false, senderName = "tuco")
+                            )
+                            messageInput = TextFieldValue("") // Clear input after sending
+                        }
+                    },
+                    modifier = Modifier
+                        .size(32.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .background(
+                                brush = Brush.linearGradient(
+                                    colors = listOf(
+                                        Color(0xFF007ACC),  // Electric Blue
+                                        Color(0xFFE81CFF)   // Vivid Magenta
+                                    )
+                                ),
+                                shape = RoundedCornerShape(12.dp)
+
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(16.dp),
+                            imageVector = Icons.Default.Send,
+                            contentDescription = "New Conversation",
+                            tint = Color.White // Icon color for better contrast
+                        )
+                    }
+                }
             }
 
-            // Send Button
-            IconButton(
-                onClick = {
-                    if (messageInput.text.isNotEmpty()) {
-                        val currentTime = System.currentTimeMillis()
-                        messages.add(Message(messageInput.text, isFromUser = true,
-                            timestamp = formatTime(currentTime)))
-                        messages.add(
-                            Message("Great idea! What else would you like to explore?",
-                                isFromUser = false, senderName = "tuco")
-                        )
-                        messageInput = TextFieldValue("") // Clear input after sending
-                    }
-                },
-                modifier = Modifier
-                    .size(32.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_send),
-                    contentDescription = "Send Message",
-                    tint = Color.Unspecified,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
         }
     }
 }

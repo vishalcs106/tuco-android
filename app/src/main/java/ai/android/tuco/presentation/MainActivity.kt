@@ -172,6 +172,8 @@ fun DrawerContent(onNavigate: (String) -> Unit) {
         TextButton(onClick = {  onNavigate(Screen.Chat.route) }) { RegularText("New Conversation") }
         TextButton(onClick = {  onNavigate(Screen.Settings.route) }) { RegularText("Settings") }
         TextButton(onClick = {  onNavigate(Screen.About.route) }) { RegularText("About") }
+        TextButton(onClick = {  onNavigate(Screen.About.route) }) { RegularText("TnC") }
+        TextButton(onClick = {  onNavigate(Screen.About.route) }) { RegularText("Privacy Policy") }
 
         // Push the app version to the bottom
         Spacer(modifier = Modifier.weight(1f))
