@@ -1,11 +1,10 @@
 package ai.android.tuco.presentation
 
 import ai.android.tuco.BuildConfig
-import ai.android.tuco.R
+import ai.android.tuco.presentation.composables.CustomTopAppBar
 import ai.android.tuco.presentation.composables.GradientButton
 import ai.android.tuco.presentation.composables.RegularText
 import ai.android.tuco.presentation.composables.StyledStatusBar
-import ai.android.tuco.presentation.composables.TucoTitle
 import ai.android.tuco.presentation.screens.ChatScreen
 import ai.android.tuco.presentation.screens.HomeScreen
 import ai.android.tuco.presentation.screens.Screen
@@ -24,26 +23,20 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
@@ -82,24 +75,7 @@ fun MainScreen() {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,  // 🔹 Ensures consistent background
             topBar = {
-                Column {
-                    TopAppBar(
-                        title = { TucoTitle{navController.navigate(Screen.Home.route)} },
-                        navigationIcon = {
-                            IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_menu),
-                                    contentDescription = "Gradient Icon",
-                                    modifier = Modifier.size(32.dp)
-                                )
-                            }
-                        }
-                    )
-                    HorizontalDivider(
-                        thickness = 0.5.dp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f) // Subtle Divider
-                    )
-                }
+                CustomTopAppBar(navController,  { scope.launch { drawerState.open() } })
             },
             modifier = Modifier
                 .fillMaxSize()
