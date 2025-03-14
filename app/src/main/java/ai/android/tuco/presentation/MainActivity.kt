@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -81,18 +82,24 @@ fun MainScreen() {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,  // 🔹 Ensures consistent background
             topBar = {
-                TopAppBar(
-                    title = { TucoTitle{navController.navigate(Screen.Home.route)} },
-                    navigationIcon = {
-                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_menu),
-                                contentDescription = "Gradient Icon",
-                                modifier = Modifier.size(32.dp)
-                            )
+                Column {
+                    TopAppBar(
+                        title = { TucoTitle{navController.navigate(Screen.Home.route)} },
+                        navigationIcon = {
+                            IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_menu),
+                                    contentDescription = "Gradient Icon",
+                                    modifier = Modifier.size(32.dp)
+                                )
+                            }
                         }
-                    }
-                )
+                    )
+                    HorizontalDivider(
+                        thickness = 0.5.dp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f) // Subtle Divider
+                    )
+                }
             },
             modifier = Modifier
                 .fillMaxSize()

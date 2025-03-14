@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.TextFieldValue
@@ -99,8 +100,8 @@ fun ChatScreen() {
                             drawRoundRect(
                                 brush = gradient,
                                 size = size,
-                                cornerRadius = androidx.compose.ui.geometry.CornerRadius(12.dp.toPx()),
-                                style = androidx.compose.ui.graphics.drawscope.Stroke(1.dp.toPx())
+                                cornerRadius = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx()),
+                                style = androidx.compose.ui.graphics.drawscope.Stroke(0.5.dp.toPx())
                             )
                         }
                     }
@@ -117,7 +118,8 @@ fun ChatScreen() {
                         capitalization = KeyboardCapitalization.Sentences, // ✅ Sentence capitalization
                         autoCorrect = true                                 // ✅ Auto-correct enabled
                     ),
-                    minLines = 2
+                    minLines = 2,
+                    cursorBrush = SolidColor(Color.White)
                 )
             }
 
@@ -136,7 +138,7 @@ fun ChatScreen() {
                     }
                 },
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(32.dp)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_send),
@@ -155,7 +157,7 @@ fun ChatScreen() {
 fun ChatBubble(message: Message) {
     // Improved Solid Colors
     val userBubbleColor = Color(0xFF007ACC) // Calm Blue for User
-    val tucoBubbleColor = Color(0xFF2B2B2B) // Charcoal Black for Tuco
+    val tucoBubbleColor = Color(0xFF181E30) // Charcoal Black for Tuco
 
     val bubbleColor = if (message.isFromUser) userBubbleColor else tucoBubbleColor
     val textColor = if (message.isFromUser) Color.White else Color(0xFFECECEC) // Light Grey for visibility

@@ -51,6 +51,8 @@ fun HomeScreen(modifier: Modifier = Modifier, onNewChatCta: () -> Unit) {
                     )
                 )
 
+                Spacer(modifier = Modifier.height(4.dp))
+
                 RegularText(
                     text = "Free. Private. Contextual. Collaborative.",
                     fontSize = 14.sp,
