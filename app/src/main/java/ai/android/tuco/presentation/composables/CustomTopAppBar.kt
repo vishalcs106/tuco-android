@@ -28,6 +28,7 @@ fun CustomTopAppBar(
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route ?: Screen.Home.route
 
     val isHomeScreen = currentRoute == Screen.Home.route
+    val isChatScreen = currentRoute == Screen.Chat.route
 
     Column {
         TopAppBar(
@@ -47,6 +48,11 @@ fun CustomTopAppBar(
                         contentDescription = if (isHomeScreen) "Menu" else "Back",
                         modifier = Modifier.size(24.dp)
                     )
+                }
+            },
+            actions = {
+                if (isChatScreen) {
+                    GradientButton(text = "Invite", onClick = {})
                 }
             }
         )

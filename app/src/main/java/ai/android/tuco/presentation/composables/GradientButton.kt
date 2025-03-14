@@ -3,8 +3,6 @@ package ai.android.tuco.presentation.composables
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -25,8 +23,6 @@ fun GradientButton(
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .height(48.dp)
             .clip(RoundedCornerShape(12.dp))  // Rounded Corners
             .background(
                 brush = Brush.linearGradient(
@@ -42,7 +38,8 @@ fun GradientButton(
         Text(
             text = text,
             style = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)
         )
     }
 }
+
