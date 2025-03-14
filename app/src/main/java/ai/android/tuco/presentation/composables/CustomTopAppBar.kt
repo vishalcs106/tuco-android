@@ -1,7 +1,9 @@
 package ai.android.tuco.presentation.composables
 
 import ai.android.tuco.presentation.screens.Screen
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -52,7 +54,9 @@ fun CustomTopAppBar(
             },
             actions = {
                 if (isChatScreen) {
-                    GradientButton(text = "Invite", onClick = {})
+                    Box(modifier = Modifier.padding(end = 8.dp)){
+                        GradientButton(text = "Invite", onClick = {}, size = ButtonSize.SMALL)
+                    }
                 }
             }
         )

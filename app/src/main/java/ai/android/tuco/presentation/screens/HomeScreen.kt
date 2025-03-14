@@ -1,5 +1,6 @@
 package ai.android.tuco.presentation.screens
 
+import ai.android.tuco.presentation.composables.ButtonSize
 import ai.android.tuco.presentation.composables.GradientButton
 import ai.android.tuco.presentation.composables.GradientFAB
 import ai.android.tuco.presentation.composables.RegularText
@@ -121,6 +122,7 @@ fun EmptyStateContent(onNewChatCta: () -> Unit) {
 
         // CTA Button for New Conversation (Inside Empty State Content)
         GradientButton(
+            size = ButtonSize.LARGE,
             onClick = { onNewChatCta() },
             modifier = Modifier
                 .fillMaxWidth()

@@ -14,16 +14,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+enum class ButtonSize(val padding: Int, val textSize: Int, val cornerRadius: Int) {
+    SMALL(padding = 6, textSize = 12, cornerRadius = 8),
+    MEDIUM(padding = 10, textSize = 14, cornerRadius = 12),
+    LARGE(padding = 14, textSize = 16, cornerRadius = 16)
+}
 
 @Composable
 fun GradientButton(
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    size: ButtonSize = ButtonSize.MEDIUM // Default to Medium
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))  // Rounded Corners
+            .clip(RoundedCornerShape(size.cornerRadius.dp))  // Rounded Corners
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
@@ -37,8 +45,14 @@ fun GradientButton(
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
-            modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = Color.White,
+                fontSize = size.textSize.sp  // Dynamic Text Size
+            ),
+            modifier = Modifier.padding(
+                vertical = size.padding.dp,
+                horizontal = size.padding.dp * 2 // Wider padding for horizontal
+            )
         )
     }
 }
