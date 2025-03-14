@@ -101,6 +101,7 @@ fun MainScreen() {
             // 🔹 BottomSheet logic now correctly inside LaunchedEffect
             if (showBottomSheet) {
                 ModalBottomSheet(
+                    containerColor = Color(0xFF181E30),
                     onDismissRequest = { showBottomSheet = false },
                     sheetState = bottomSheetState
                 ) {
