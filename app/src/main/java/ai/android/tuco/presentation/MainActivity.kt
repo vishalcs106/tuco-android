@@ -3,6 +3,7 @@ package ai.android.tuco.presentation
 import ai.android.tuco.BuildConfig
 import ai.android.tuco.presentation.composables.CustomTopAppBar
 import ai.android.tuco.presentation.composables.GradientButton
+import ai.android.tuco.presentation.composables.InviteBottomSheet
 import ai.android.tuco.presentation.composables.RegularText
 import ai.android.tuco.presentation.composables.StyledStatusBar
 import ai.android.tuco.presentation.screens.ChatScreen
@@ -27,13 +28,19 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -61,6 +68,11 @@ fun MainScreen() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
+
+    // BottomSheet state
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var showBottomSheet by remember { mutableStateOf(false) }
+
     StyledStatusBar(color = Color.Black, isLight = false)
 
     ModalNavigationDrawer(
@@ -73,14 +85,31 @@ fun MainScreen() {
         }
     ) {
         Scaffold(
-            containerColor = MaterialTheme.colorScheme.background,  // 🔹 Ensures consistent background
+            containerColor = MaterialTheme.colorScheme.background,
             topBar = {
-                CustomTopAppBar(navController,  { scope.launch { drawerState.open() } })
+                CustomTopAppBar(
+                    navController,
+                    onMenuClick = { scope.launch { drawerState.open() } },
+                    onInviteClick = { showBottomSheet = true }  // ✅ Triggers BottomSheet in `LaunchedEffect`
+                )
             },
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background) // 🔹 Ensures content matches theme
+                .background(MaterialTheme.colorScheme.background)
         ) { innerPadding ->
+
+            // 🔹 BottomSheet logic now correctly inside LaunchedEffect
+            if (showBottomSheet) {
+                ModalBottomSheet(
+                    onDismissRequest = { showBottomSheet = false },
+                    sheetState = bottomSheetState
+                ) {
+                    InviteBottomSheet(
+                        onClose = { showBottomSheet = false }
+                    )
+                }
+            }
+
             NavHost(navController = navController,
                 startDestination = Screen.Home.route,
                 modifier = Modifier.padding(innerPadding)){
@@ -124,6 +153,7 @@ fun MainScreen() {
         }
     }
 }
+
 
 
 @Composable

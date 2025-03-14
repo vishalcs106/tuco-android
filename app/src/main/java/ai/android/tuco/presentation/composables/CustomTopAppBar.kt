@@ -25,7 +25,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 @Composable
 fun CustomTopAppBar(
     navController: NavController,
-    onMenuClick: () -> Unit
+    onMenuClick: () -> Unit,
+    onInviteClick: () -> Unit
 ) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route ?: Screen.Home.route
 
@@ -55,7 +56,7 @@ fun CustomTopAppBar(
             actions = {
                 if (isChatScreen) {
                     Box(modifier = Modifier.padding(end = 8.dp)){
-                        GradientButton(text = "Invite", onClick = {}, size = ButtonSize.SMALL)
+                        GradientButton(text = "Invite", onClick = {onInviteClick()}, size = ButtonSize.SMALL)
                     }
                 }
             }
