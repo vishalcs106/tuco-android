@@ -1,12 +1,9 @@
 package ai.android.tuco.presentation.composables
 
-import ai.android.tuco.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +16,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 
@@ -32,14 +28,6 @@ fun TucoTitle(onClick: () -> Unit) {
             .padding(16.dp)
             .clickable { onClick() }
     ) {
-        Icon(
-            painter = painterResource(id = R.mipmap.ic_launcher), // Launcher icon
-            contentDescription = "App Icon",
-            tint = Color.Unspecified,
-            modifier = Modifier
-                .size(44.dp) // Adjust size as needed
-                .padding(end = 8.dp)
-        )
 
         Text(
             text = "tuco.ai",

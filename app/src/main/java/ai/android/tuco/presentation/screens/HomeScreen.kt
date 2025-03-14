@@ -3,18 +3,16 @@ package ai.android.tuco.presentation.screens
 import ai.android.tuco.presentation.composables.GradientButton
 import ai.android.tuco.presentation.composables.RegularText
 import ai.android.tuco.ui.theme.unbounded
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,78 +27,93 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, onNewChatCta: () -> Unit) {
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Hero Section
-        Text(
-            text = "tuco.ai - your wingman",
-            style = TextStyle(
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = unbounded,
-                fontSize = 22.sp
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally // ✅ Center aligns content horizontally
+            ) {
+                Text(
+                    text = "tuco.ai - your wingman",
+                    style = TextStyle(
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = unbounded,
+                        fontSize = 18.sp
+                    )
+                )
+
+                RegularText(
+                    text = "Free. Private. Contextual. Collaborative.",
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                )
+            }
+
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            RegularText(
+                text = "Collaborate with tuco:",
+                fontSize = 20.sp,
+                color = Color.White
             )
-        )
-        RegularText(
-            text = "Free. Private. Contextual. Collaborative.",
-            fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
-        )
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Flex Box for Suggested Conversations
-        RegularText(
-            text = "Try asking Tuco about:",
-            fontSize = 20.sp,
-            color = Color.White
-        )
-
-        ConversationIdeasGrid(
-            ideas = listOf(
-                "Brainstorm ideas",
-                "Plan a vacation",
-                "Content creation tips",
-                "AI-powered jokes",
-                "Fitness routines",
-                "Cooking recipes",
-                "Coding help",
-                "Book recommendations"
+            // Suggested Conversations List
+            ConversationIdeasList(
+                ideas = listOf(
+                    "👫 Invite friends and roast each other",
+                    "💬 Discuss your relationship with your partner",
+                    "🧠 Brainstorm ideas with your creative buddy",
+                    "📢 Plan your next viral content with friends",
+                    "🎯 Debate hot topics with your social circle",
+                    "🎬 Write a short film script together",
+                    "📖 Co-write a fantasy story with AI",
+                    "🛫 Plan your next vacation collaboratively"
+                ),
+                modifier = Modifier
+                    .weight(1f)  // ✅ Expands to fill available space
             )
-        )
+        }
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // CTA Button for New Conversation
+        // CTA Button for New Conversation (Fixed at Bottom)
         GradientButton(
             onClick = { onNewChatCta() },
             modifier = Modifier
                 .fillMaxWidth()
+                .align(Alignment.BottomCenter) // ✅ Correct usage of `.align()` inside `Box`
                 .padding(8.dp),
             text = "New Conversation"
         )
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ConversationIdeasGrid(ideas: List<String>) {
-    FlowRow(
-        modifier = Modifier.fillMaxWidth(),
-        maxItemsInEachRow = 3, // Flexible grid structure
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+fun ConversationIdeasList(ideas: List<String>, modifier: Modifier = Modifier) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth(),
+        contentPadding = PaddingValues(vertical = 8.dp)
     ) {
-        ideas.forEach { idea ->
-            SuggestionChip(text = idea)
+        items(ideas) { idea ->
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                SuggestionChip(text = idea)
+            }
         }
     }
 }
+
 
 @Composable
 fun SuggestionChip(text: String) {
