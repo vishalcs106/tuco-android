@@ -40,12 +40,15 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     onNewChatCta: () -> Unit
 ) {
-    val conversations =  remember { mutableStateListOf(
-        Conversation("👨‍💻 Brainstorming Session", "You, Alex, Sam, tuco"),
-        Conversation("📖 Fantasy Story Writing", "You, John, Maria, tuco"),
-        Conversation("🎯 Marketing Campaign Ideas", "You, Olivia, David, tuco"),
-        Conversation("🛫 Vacation Planning", "You, Mike, Lisa, tuco")
-    ) }
+//    val conversations =  remember { mutableStateListOf(
+//        Conversation("👨‍💻 Brainstorming Session", "You, Alex, Sam, tuco"),
+//        Conversation("📖 Fantasy Story Writing", "You, John, Maria, tuco"),
+//        Conversation("🎯 Marketing Campaign Ideas", "You, Olivia, David, tuco"),
+//        Conversation("🛫 Vacation Planning", "You, Mike, Lisa, tuco")
+//    ) }
+
+
+    val conversations =  remember { mutableStateListOf<Conversation>()}
 
     Box(
         modifier = modifier

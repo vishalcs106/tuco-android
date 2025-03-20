@@ -4,6 +4,7 @@ import ai.android.tuco.BuildConfig
 import ai.android.tuco.presentation.composables.CustomTopAppBar
 import ai.android.tuco.presentation.composables.GradientButton
 import ai.android.tuco.presentation.composables.InviteBottomSheet
+import ai.android.tuco.presentation.composables.ParticipantsBottomSheet
 import ai.android.tuco.presentation.composables.RegularText
 import ai.android.tuco.presentation.composables.StyledStatusBar
 import ai.android.tuco.presentation.screens.ChatScreen
@@ -71,8 +72,8 @@ fun MainScreen() {
 
     // BottomSheet state
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    var showBottomSheet by remember { mutableStateOf(false) }
-
+    var showInviteBottomSheet by remember { mutableStateOf(false) }
+    var showParticipantsBottomSheet by remember { mutableStateOf(false) }
     StyledStatusBar(color = Color.Black, isLight = false)
 
     ModalNavigationDrawer(
@@ -90,7 +91,10 @@ fun MainScreen() {
                 CustomTopAppBar(
                     navController,
                     onMenuClick = { scope.launch { drawerState.open() } },
-                    onInviteClick = { showBottomSheet = true }  // ✅ Triggers BottomSheet in `LaunchedEffect`
+                    onInviteClick = { showInviteBottomSheet = true },
+                    onInfoClick = {
+                        showParticipantsBottomSheet = true
+                    }
                 )
             },
             modifier = Modifier
@@ -99,14 +103,26 @@ fun MainScreen() {
         ) { innerPadding ->
 
             // 🔹 BottomSheet logic now correctly inside LaunchedEffect
-            if (showBottomSheet) {
+            if (showInviteBottomSheet) {
                 ModalBottomSheet(
                     containerColor = Color(0xFF181E30),
-                    onDismissRequest = { showBottomSheet = false },
+                    onDismissRequest = { showInviteBottomSheet = false },
                     sheetState = bottomSheetState
                 ) {
                     InviteBottomSheet(
-                        onClose = { showBottomSheet = false }
+                        onClose = { showInviteBottomSheet = false }
+                    )
+                }
+            }
+
+            if (showParticipantsBottomSheet) {
+                ModalBottomSheet(
+                    containerColor = Color(0xFF181E30),
+                    onDismissRequest = { showParticipantsBottomSheet = false },
+                    sheetState = bottomSheetState
+                ) {
+                    ParticipantsBottomSheet(
+                        onClose = { showParticipantsBottomSheet = false }
                     )
                 }
             }

@@ -42,7 +42,7 @@ fun InviteBottomSheet(onClose: () -> Unit) {
         )
 
         Text(
-            text = "Invite your friends to join and collaborate with Tuco.",
+            text = "Invite your friends to join and collaborate with tuco.",
             style = MaterialTheme.typography.bodyMedium
         )
 
